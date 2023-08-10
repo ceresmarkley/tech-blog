@@ -1,9 +1,9 @@
 :root {
-    --primary: #ccdad1;
-    --secondary: #dce9d5;
-    --tertiary: #788585;
-    --light-dark: #a1a0a1;
-    --dark: #201110;
+    --primary: #1D5D9B;
+    --secondary: #75C2F6;
+    --tertiary: #FFECAF;
+    --light-dark: #75C2F6;
+    --dark: #F4D160;
     --border-radius: .3rem;
 }
 
@@ -183,7 +183,7 @@ h4 {
 }
 
 .link {
-    color: var(--light-dark);
+    color: var(--primary);
 }
 
 .login-link {
