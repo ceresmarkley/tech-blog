@@ -1,26 +1,29 @@
-async function signup(event) {
+async function signupFormHandler(event) {
     event.preventDefault();
-    console.log('test')
 
-    const username = document.getElementById('username').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
 
-    console.log(username, email, password)
-    if (username && password && email) {
+    const username = document.querySelector('#username-signup').value.trim();
+    const password = document.querySelector('#password-signup').value.trim();
+
+    if (username && password) {
         const response = await fetch('/api/users', {
             method: 'POST',
-            body: JSON.stringify({ name: username, email, password }),
+            body: JSON.stringify({
+                username,
+                password
+            }),
             headers: { 'Content-Type': 'application/json' }
         });
         if (response.ok) {
-            console.log('You just created a new account!')
+            console.log('success');
+
+
             document.location.replace('/dashboard');
 
         } else {
-            alert('Login failed');
+            alert(response.statusText);
         }
     }
 }
 
-document.getElementById('signup').addEventListener('click', signup);
+document.querySelector('#signup-form').addEventListener('submit', signupFormHandler);
