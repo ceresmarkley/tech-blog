@@ -9,6 +9,21 @@ router.get('/', withAuth, async (req, res) => {
             where: {
                 user_id: req.session.user_id
             },
+            attributes: ['id', 'title', 'text', 'created_at'],
+            include: [
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+                    include: {
+                        model: User,
+                        attributes: ['username'],
+                    },
+                },
+                {
+                    model: User,
+                    attributes: ['username'],
+                },
+            ],
         });
 
         const posts = postData.map(post => post.get({ plain: true }));
@@ -25,7 +40,26 @@ router.get('/', withAuth, async (req, res) => {
 
 router.get('/edit/:id', withAuth, async (req, res) => {
     try {
-        const postData = await Post.findByPk(req.params.id);
+        const postData = await Post.findOne({
+            where: {
+                id: req.params.id,
+            },
+            attributes: ['id', 'title', 'text', 'created_at'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                },
+                {
+                    model: Comment,
+                    attributes: ['id', 'body', 'post_id', 'user_id', 'created_at'],
+                    include: {
+                        model: User,
+                        attributes: ['name'],
+                    },
+                },
+            ],
+        });
 
         if (postData) {
             const post = postData.get({plain: true});
