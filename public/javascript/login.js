@@ -1,29 +1,31 @@
-//  login submission 
+async function login(event) {
+  event.preventDefault();
 
+  const name = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
 
-async function loginFormHandler(event) {
-    event.preventDefault();
-  
-    const username = document.querySelector('#username-login').value.trim();
-    const password = document.querySelector('#password-login').value.trim();
-  
-    if (username && password) {
+  console.log(name, password)
+  if (name && password) {
       const response = await fetch('/api/users/login', {
-        method: 'post',
-        body: JSON.stringify({
-          username,
-          password
-        }),
-        headers: { 'Content-Type': 'application/json' }
+          method: 'POST',
+          body: JSON.stringify({ name, password }),
+          headers: { 'Content-Type': 'application/json' }
       });
-  
       if (response.ok) {
-        document.location.replace('/dashboard');
+          document.location.replace('/dashboard');
+          console.log("success");
       } else {
-        alert(response.statusText);
+          alert('Login failed');
+          console.log("failed")
       }
-    }
   }
-  
+}
 
-document.querySelector('#login-form').addEventListener('submit', loginFormHandler);
+
+function signup(event) {
+  event.preventDefault();
+  document.location.replace('/signup');
+}
+
+document.getElementById('login').addEventListener('click', login);
+document.getElementById('signup').addEventListener('click', signup);    

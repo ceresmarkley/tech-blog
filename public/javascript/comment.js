@@ -1,32 +1,23 @@
-async function commentFormHandler(event) {
+async function comment(event) {
     event.preventDefault();
 
-    const comment_text = document.querySelector('input[name="comment-body"]').value.trim();
+    const comment = document.getElementById('input').value.trim();
+    // we convert url to string and split by '/' and find last one which is id
+    const id = window.location.toString().split('/').pop();
+    console.log(comment)
 
-    const post_id = window.location.toString().split('/')[
-        window.location.toString().split('/').length - 1
-    ];
-
-    if (comment_text) {
+    if (comment) {
         const response = await fetch('/api/comments', {
             method: 'POST',
-            body: JSON.stringify({
-                post_id,
-                comment_text
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: JSON.stringify({ post_id: id, body: comment }),
+            headers: { 'Content-Type': 'application/json' }
         });
-
         if (response.ok) {
             document.location.reload();
-
         } else {
-            alert(response.statusText);
-            document.querySelector('#comment-form').style.display = "block";
+            alert('something went wrong')
         }
     }
 }
 
-document.querySelector('.comment-form').addEventListener('submit', commentFormHandler);
+document.getElementById('submit-comment').addEventListener('click', comment);

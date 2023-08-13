@@ -1,33 +1,29 @@
-async function editFormHandler(event) {
-    event.preventDefault();
+async function editpost(event) {
+  event.preventDefault();
 
-    const title = document.querySelector('input[name="post-title"]').value.trim();
-    const content = document.querySelector('input[name="content"]').value.trim();
-    console.log(title);
-    console.log(content);
+  const title = document.getElementById('title').value.trim();
+  const text = document.getElementById('text').value.trim();
+  const id = window.location.toString().split('/').pop();
+  console.log(id);
 
-    const id = window.location.toString().split('/')[
-      window.location.toString().split('/').length - 1
-    ];
-      
+  if (title && text) {
       const response = await fetch(`/api/posts/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          post_id: id,
-          title,
-          content
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+          method: 'PUT',
+          body: JSON.stringify({ post_id: id, title, text }),
+          headers: {
+              'Content-Type': 'application/json'
+          }
       });
-      
+
       if (response.ok) {
-        document.location.replace('/dashboard/');
+          document.location.replace('/dashboard');
       } else {
-        alert(response.statusText);
+          alert('something went wrong');
       }
+  } else {
+      alert('Must have input of title and text!')
+  }
 
 }
 
-document.querySelector('.edit-post-form').addEventListener('submit', editFormHandler);
+document.getElementById('update-button').addEventListener('click', editpost);

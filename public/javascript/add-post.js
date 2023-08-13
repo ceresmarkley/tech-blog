@@ -1,25 +1,27 @@
-async function newFormHandler(event) {
-    event.preventDefault();
-  
-    const title = document.querySelector('input[name="post-title"]').value;
-    const content = document.querySelector('input[name="content"]').value;
-  
-    const response = await fetch(`/api/posts`, {
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-        content
-      }),
-      headers: {
-        'Content-Type': 'application/json'
+async function addNew(event) {
+  event.preventDefault();
+
+  const title = document.getElementById('title').value.trim();
+  const text = document.getElementById('text').value.trim();
+
+
+
+  if (title && text) {
+      const response = await fetch(`/api/posts`, {
+          method: 'POST',
+          body: JSON.stringify({ title, text }),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+      if (response.ok) {
+          document.location.reload();
+      } else {
+          alert("something went wrong");
       }
-    });
-  
-    if (response.ok) {
-      document.location.replace('/dashboard');
-    } else {
-      alert(response.statusText);
-    }
-  };
-  
-document.querySelector('#new-post-form').addEventListener('submit', newFormHandler);
+  } else {
+      alert("You have to type both title and text before submit")
+  }
+};
+
+document.getElementById('create-new').addEventListener('click', addNew);
