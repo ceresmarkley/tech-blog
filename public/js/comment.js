@@ -2,7 +2,7 @@ async function comment(event) {
     event.preventDefault();
 
     const comment = document.getElementById('input').value.trim();
-    // we convert url to string and split by '/' and find last one which is id
+    // Converts url to string and split by '/' and find last section which is ID
     const id = window.location.toString().split('/').pop();
     console.log(comment)
 
