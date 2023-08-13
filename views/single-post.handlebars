@@ -1,21 +1,72 @@
+<div>
+    {{!-- if logged in, you can add comment --}}
+    {{#if logged_in}}
+    <div class="container mt-3">
+        <div class="row border p-3 mb-3">
+            <div class="col-sm-12 my-3">
+                {{>post-details post}}
+            </div>
+            <div class="mb-4">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Comment:</span>
+                    <input type="text" class="form-control" placeholder="add comment here"
+                        aria-describedby="inputGroup-sizing-lg" id="input">
+                    <button type="button" class="btn btn-info mx-auto col-1" id="submit-comment">Submit</button>
+                </div>
+            </div>
 
-{{> post-info post}}
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    {{#each post.comments as |comment| }}
+                    <li class="list-group-item d-flex">
+                        <div class="w-75">
+                            {{comment.body}}
+                        </div>
+                        <div class="w-25 d-flex justify-content-end align-items-center">
+                            <span class="d-sm-inline">
+                                Created by {{comment.user.name}} on {{format_date comment.created_at}}
+                            </span>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
 
-{{#if loggedIn}}
-<div class="card">
-    <h3 class="card-header"></h3>
-    <form class="card-body comment-form" id="comment-form">
 
-        <label class="form-label">Comment</label>
-        <input id="comment" name="comment-body" class="form-input" />
+    {{else}}
+    {{!-- if not logged in, and click the title of the post will go to login page --}}
+    <div class="container mt-3">
+        <div class="row border p-3 mb-3">
+            <div class="col-sm-12 my-3">
+                {{>post-requirelogin post}}
+            </div>
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    {{#each post.comments as |comment| }}
+                    <li class="list-group-item d-flex">
+                        <div class="w-75">
+                            {{comment.body}}
+                        </div>
+                        <div class="w-25 d-flex justify-content-end align-items-center">
+                            <span class="d-sm-inline">
+                                Created by {{comment.user.name}} on {{format_date comment.created_at}}
+                            </span>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
 
-        <button type="submit" class="btn">Submit</button>
-    </form>
+    {{/if}}
 </div>
-{{/if}}
 
-{{> comments post.comments}}
 
+
+{{!-- if logged in we use comment.js to deal with the logic --}}
 {{#if loggedIn}}
 <script src="/javascript/comment.js"></script>
 {{/if}}
