@@ -27,12 +27,11 @@ router.get('/', withAuth, async (req, res) => {
         });
 
         const posts = postData.map(post => post.get({ plain: true }));
-        res.render('all-posts-admin', {
-            layout: 'dashboard',
-            posts,
-        });
+        res.render('dashboard', { posts, logged_in: true });
+    
     } catch (err) {
-        res.redirect('login');
+        console.log(err);
+        res.status(500).json(err);
     }
 });
 
@@ -52,30 +51,27 @@ router.get('/edit/:id', withAuth, async (req, res) => {
                 },
                 {
                     model: Comment,
-                    attributes: ['id', 'body', 'post_id', 'user_id', 'created_at'],
+                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                     include: {
                         model: User,
-                        attributes: ['name'],
+                        attributes: ['username'],
                     },
                 },
             ],
         });
 
-        if (postData) {
-            const post = postData.get({plain: true});
-
-            res.render('edit-post', {
-                layout: 'dashboard',
-                post,
-            });
-        } else {
+        if (!postData) {
             res.status(404).json({ message: 'No post found' });
             return;
         }
-        } catch (err) {
-            res.redirect('login');
-        }
-    });
+
+        const post = postData.get({ plain: true });
+        res.render('edit-post', { post, logged_in: true });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
             
 
 router.get('/new', withAuth, (req, res) => {

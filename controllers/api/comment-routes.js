@@ -45,7 +45,7 @@ router.post('/', withAuth, async (req, res) => {
     }
 });
 
-// ('/api/commnets/:id') with put method to update comment body
+// ('/api/comments/:id') with put method to update comment body
 // no function added yet
 router.put('/:id', withAuth, async (req, res) => {
     try {

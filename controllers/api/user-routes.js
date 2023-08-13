@@ -1,115 +1,61 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../../models');
-router.get('/', (req, res) => {
-    User.findAll({
-            attributes: { exclude: ['[password'] }
-        })
-        .then(dbUserData => res.json(dbUserData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+const { Post, Comment, User } = require('../../models');
+
+// user sign up
+router.post('/', async (req, res) => {
+    try {
+        const userData = await User.create({
+            name: req.body.name,
+            password: req.body.password,
+            email: req.body.email,
         });
+
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.name = userData.name;
+            req.session.logged_in = true;
+
+            res.json(userData);
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
-router.get('/:id', (req, res) => {
-    User.findOne({
-            attributes: { exclude: ['password'] },
-            where: {
-                id: req.params.id
-            },
-            include: [{
-                    model: Post,
-                    attributes: [
-                        'id',
-                        'title',
-                        'content',
-                        'created_at'
-                    ]
-                },
-
-                {
-                    model: Comment,
-                    attributes: ['id', 'comment_text', 'created_at'],
-                    include: {
-                        model: Post,
-                        attributes: ['title']
-                    }
-                },
-                {
-                    model: Post,
-                    attributes: ['title'],
-                }
-            ]
-        })
-        .then(dbUserData => {
-            if (!dbUserData) {
-                res.status(404).json({ message: 'No user found with this id' });
-                return;
-            }
-            res.json(dbUserData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+router.post('/login', async (req, res) => {
+    try {
+        const userData = await User.findOne({
+            where: { name: req.body.name },
         });
-});
 
+        if (!userData) {
+            res.status(400).json({ message: 'Incorrect username or password!' });
+            return;
+        }
 
-router.post('/', (req, res) => {
+        const validPassword = userData.checkPassword(req.body.password);
 
-    User.create({
-        username: req.body.username,
-        password: req.body.password
-    })
+        if (!validPassword) {
+            res.status(400).json({ message: 'Incorrect username or password!' });
+            return;
+        }
 
-    .then(dbUserData => {
-            req.session.save(() => {
-                req.session.user_id = dbUserData.id;
-                req.session.username = dbUserData.username;
-                req.session.loggedIn = true;
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.name = userData.name;
+            req.session.logged_in = true;
 
-                res.json(dbUserData);
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+            res.json({ user: userData, message: 'You are logged in!' });
         });
-});
-
-router.post('/login', (req, res) => {
-    User.findOne({
-            where: {
-                username: req.body.username
-            }
-        }).then(dbUserData => {
-            if (!dbUserData) {
-                res.status(400).json({ message: 'No user with that username!' });
-                return;
-            }
-            const validPassword = dbUserData.checkPassword(req.body.password);
-
-            if (!validPassword) {
-                res.status(400).json({ message: 'Incorrect password!' });
-                return;
-            }
-            req.session.save(() => {
-
-                req.session.user_id = dbUserData.id;
-                req.session.username = dbUserData.username;
-                req.session.loggedIn = true;
-
-                res.json({ user: dbUserData, message: 'You are now logged in!' });
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
 router.post('/logout', (req, res) => {
-    if (req.session.loggedIn) {
+    if (req.session.logged_in) {
         req.session.destroy(() => {
             res.status(204).end();
         });
@@ -118,45 +64,44 @@ router.post('/logout', (req, res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
 
-    User.update(req.body, {
+// update user, function not added yet
+router.put('/:id', async (req, res) => {
+    try {
+        const userData = await User.update(req.body, {
             individualHooks: true,
-            where: {
-                id: req.params.id
-            }
-        })
-        .then(dbUserData => {
-            if (!dbUserData[0]) {
-                res.status(404).json({ message: 'No user found with this id' });
-                return;
-            }
-            res.json(dbUserData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+            where: { id: req.params.id },
         });
 
+        if (!userData[0]) {
+            res.status(404).json({ message: 'No user found' });
+            return;
+        }
+
+        res.json(userData);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
-router.delete('/:id', (req, res) => {
-    User.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
-        .then(dbUserData => {
-            if (!dbUserData) {
-                res.status(404).json({ message: 'No user found with this id' });
-                return;
-            }
-            res.json(dbUserData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+// delete use and no function added for now
+router.delete('/:id', async (req, res) => {
+    try {
+        const userData = await User.destroy({
+            where: { id: req.params.id },
         });
+
+        if (!userData) {
+            res.status(404).json({ message: 'No user found' });
+            return;
+        }
+
+        res.json(userData);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
 module.exports = router;
