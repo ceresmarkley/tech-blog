@@ -113,7 +113,8 @@ npm start
 ## Usage  
 
 
-![image](https://github.com/ceresmarkley/tech-blog/assets/129554518/c5e6e64d-26bd-4d10-bf44-8d8f1bbf1031)
+![image](https://github.com/ceresmarkley/tech-blog/assets/129554518/7cd218da-1705-4819-98ce-f086dfd33e4c)
+
 
 
 
