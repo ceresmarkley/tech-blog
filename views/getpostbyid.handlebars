@@ -24,7 +24,7 @@
                         </div>
                         <div class="w-25 d-flex justify-content-end align-items-center">
                             <span class="d-sm-inline">
-                                Created by {{comment.user.name}} on {{format_date comment.created_at}}
+                                Created by {{comment.name}} on {{format_date comment.created_at}}
                             </span>
                         </div>
                     </li>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="w-25 d-flex justify-content-end align-items-center">
                             <span class="d-sm-inline">
-                                Created by {{comment.user.name}} on {{format_date comment.created_at}}
+                                Created by {{comment.name}} on {{format_date comment.created_at}}
                             </span>
                         </div>
                     </li>
@@ -68,5 +68,5 @@
 
 {{!-- if logged in we use comment.js to deal with the logic --}}
 {{#if loggedIn}}
-<script src="/javascript/comment.js"></script>
+<script src="/js/comment.js"></script>
 {{/if}}
