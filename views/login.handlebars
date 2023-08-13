@@ -1,15 +1,32 @@
-    <div class="card">
-      <h3 class="card-header">Login</h3>
-      <form id="login-form" class="card-body">
-        <label class="form-label" for="username-login">Username</label>
-        <input  id="username-login" type="text" autofocus="true" class="form-input" />
-
-        <label class="form-label" for="password-login">Password</label>
-        <input id="password-login" type="password" autofocus="true" class="form-input" />
-
-        <button type="submit" class="btn">Login!</button>
-        <a class="login-link" href="/signup">Sign up instead</a>
-      </form>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Log in</h3>
+                </div>
+                <div class="card-body">
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username"
+                                placeholder="Input your username here">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password"
+                                placeholder="Input your password here">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="login">Log in</button>
+                            <button type="click" class="btn btn-primary" id="signup">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    
+</div>
+
+
 <script src="/js/login.js"></script>
