@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Post, Comment, User } = require('../../models');
 
-// user sign up
+// user sign up route
 router.post('/', async (req, res) => {
     try {
         const userData = await User.create({
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
         res.status(500).json(err);
     }
 });
-
+// user login route
 router.post('/login', async (req, res) => {
     try {
         const userData = await User.findOne({
@@ -65,7 +65,7 @@ router.post('/logout', (req, res) => {
 });
 
 
-// update user, function not added yet
+// update user route
 router.put('/:id', async (req, res) => {
     try {
         const userData = await User.update(req.body, {
@@ -85,7 +85,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// delete use and no function added for now
+// delete user route
 router.delete('/:id', async (req, res) => {
     try {
         const userData = await User.destroy({

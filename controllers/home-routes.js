@@ -3,7 +3,7 @@ const sequelize = require('sequelize');
 const { Post, User, Comment } = require('../models');
 
 
-// this is the main page and u will see all the post no matter you logged in or not
+// this is the main page where you will see posts even if not logged in.
 router.get('/', async (req, res) => {
     try {
         const postData = await Post.findAll({
@@ -49,12 +49,12 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-// go to sign up and render signup.handlebars
+// go to sign up and render signup handlebars page
 router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-// get post by post id
+// get post by post id, for when user clicks on post.
 router.get('/post/:id', async (req, res) => {
     try {
         const postData = await Post.findOne({

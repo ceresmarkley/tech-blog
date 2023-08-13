@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// ('/api/commnets')
+// connects to ('/api/comments')
 router.get('/', async (req, res) => {
     try {
         const commentData = await Comment.findAll({});
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// ('/api/comments/:id')
+// connects to ('/api/comments/:id')
 router.get('/:id', async (req, res) => {
     try {
         const commentData = await Comment.findAll({
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// ('/api/commnets') with POST method
+// connects to ('/api/comments') with POST method
 router.post('/', withAuth, async (req, res) => {
     try {
         if (req.session) {
@@ -45,8 +45,7 @@ router.post('/', withAuth, async (req, res) => {
     }
 });
 
-// ('/api/comments/:id') with put method to update comment body
-// no function added yet
+// connects to ('/api/comments/:id') with put method to update comment body
 router.put('/:id', withAuth, async (req, res) => {
     try {
         const commentData = await Comment.update(
@@ -71,8 +70,7 @@ router.put('/:id', withAuth, async (req, res) => {
 });
 
 
-// ('/commnets/:id') with delete method to delete comment 
-// no function added yet
+// connects to('/comments/:id') with delete method to delete comment 
 router.delete('/:id', withAuth, async (req, res) => {
     try {
         const commentData = await Comment.destroy({

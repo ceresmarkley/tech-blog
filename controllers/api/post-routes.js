@@ -3,7 +3,7 @@ const { Post, Comment, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 const sequelize = require('../../config/connection');
 
-
+// connects to ('/api/posts')
 router.get('/', async (req, res) => {
     try {
         const postData = await Post.findAll({
@@ -32,6 +32,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// connects to ('/api/posts/:id')
 router.get('/:id', async (req, res) => {
     try {
         const postData = await Post.findOne({
@@ -105,6 +106,7 @@ router.put('/:id', withAuth, async (req, res) => {
     }
 });
 
+// connects to('/posts/:id') with delete method to delete posts 
 router.delete('/:id', withAuth, async (req, res) => {
     try {
         const postData = await Post.destroy({
