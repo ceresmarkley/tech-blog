@@ -1,4 +1,4 @@
-<div class="container-fluid m-5">
+<div class="container-fluid m-5 bg-dark">
     <div class="container mt-3">
         <div id="postadd my3">
             <h2> Add your new post here:</h2>
@@ -16,18 +16,18 @@
         </div>
         <br>
         <div class="row">
-            <button type="button" class="btn btn-info mx-auto col-3" id="create-new">Create new Post</button>
+            <button type="button" class="btn border-info btn-info text-dark mx-auto col-3" id="create-new">Create new Post</button>
         </div>
     </div>
 </div>
 
 {{#if posts.length}}
 <!-- generates posts from logged in user -->
-<div class="container-fluid m-5">
-    <h2 class="text-center">Your Posts:</h2>
+<div class="container-fluid m-5 bg-dark">
+    <h2 class="text-center text-light">Your Posts:</h2>
 
 
-    <div class="container mt-3">
+    <div class="container mt-3 text-light bg-dark">
         <div class="row border p-3 mb-3">
             {{#each posts as |post| }}
             <div class="col-sm-12 my-3">

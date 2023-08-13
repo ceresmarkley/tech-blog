@@ -1,11 +1,11 @@
 <!-- Similar route as post details with edition of /edit in URL between dashboard/ and /id -->
-<div class="card mx-auto w-100">
+<div class="card mx-auto w-100 bg-dark">
     <div class="card-body">
         <h3 class="card-title">
-            <a href="/dashboard/edit/{{id}}" class="text-decoration-none">{{title}}</a>
+            <a href="/dashboard/edit/{{id}}" class="text-decoration-none text-info">{{title}}</a>
         </h3>
-        <p class="card-body fs-5">{{text}}</p>
-        <p class="card-text text-end fs-6">
+        <p class="card-body fs-5 text-light">{{text}}</p>
+        <p class="card-text text-end fs-6 text-light">
             <span id="span_username">{{user.name}}</span> created on {{format_date created_at}} !
         </p>
 
